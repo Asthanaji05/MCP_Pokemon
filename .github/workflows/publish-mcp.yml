@@ -43,15 +43,25 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           # Update package.json version (preserves all fields including mcpName)
           npm version $VERSION --no-git-tag-version
-          # Update server.json versions
-          npx -y jq --arg v "$VERSION" '.version = $v | .packages[0].version = $v' server.json > server.json.tmp && mv server.json.tmp server.json
+          # Update server.json versions using Node.js
+          node -e "
+            const fs = require('fs');
+            const server = JSON.parse(fs.readFileSync('server.json', 'utf8'));
+            server.version = '$VERSION';
+            server.packages[0].version = '$VERSION';
+            fs.writeFileSync('server.json', JSON.stringify(server, null, 2) + '\n');
+          "
           # Verify mcpName exists in package.json
-          if ! npx -y jq -e '.mcpName' package.json > /dev/null; then
-            echo "Error: mcpName field missing from package.json!"
-            exit 1
-          fi
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            if (!pkg.mcpName) {
+              console.error('Error: mcpName field missing from package.json!');
+              process.exit(1);
+            }
+            console.log('✅ Verified mcpName exists:', pkg.mcpName);
+          "
           echo "✅ Updated version to $VERSION"
-          echo "✅ Verified mcpName field exists in package.json"
 
       - name: Validate server.json after version update
         run: npm run validate:server
@@ -62,13 +72,22 @@ jobs:
 
       - name: Verify package.json has mcpName before publishing
         run: |
-          if ! grep -q '"mcpName"' package.json; then
-            echo "❌ Error: mcpName field missing from package.json!"
-            cat package.json | grep -A 5 -B 5 mcpName || echo "mcpName not found"
-            exit 1
-          fi
-          echo "✅ Verified mcpName exists in package.json"
-          npx -y jq '.mcpName' package.json
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            if (!pkg.mcpName) {
+              console.error('❌ Error: mcpName field missing from package.json!');
+              console.error('Current package.json:');
+              console.error(JSON.stringify(pkg, null, 2));
+              process.exit(1);
+            }
+            console.log('✅ Verified mcpName exists:', pkg.mcpName);
+            console.log('Expected:', 'io.github.Asthanaji05/pokeapi-mcp-server');
+            if (pkg.mcpName !== 'io.github.Asthanaji05/pokeapi-mcp-server') {
+              console.error('❌ Error: mcpName does not match expected value!');
+              process.exit(1);
+            }
+          "
 
       - name: Publish to npm
         run: npm publish
