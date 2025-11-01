@@ -8,7 +8,7 @@
 import * as readline from 'readline';
 import axios from 'axios';
 
-const HTTP_SERVER_URL = process.env.MCP_HTTP_SERVER_URL || 'http://localhost:3000';
+const HTTP_SERVER_URL = process.env.MCP_HTTP_SERVER_URL || 'https://pokemon-mcp-server-vs8m.onrender.com';
 
 interface MCPRequest {
   jsonrpc: '2.0';
