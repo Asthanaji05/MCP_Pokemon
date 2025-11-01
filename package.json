@@ -6,8 +6,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"No tests configured - skipping\"",
-    "start": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
     "build": "tsc",
+    "postinstall": "npm run build",
     "mcp": "ts-node src/mcp-server.ts",
     "test:ai": "ts-node src/ai-helper.ts",
     "testAllTools": "ts-node src/testAllTools.ts",
@@ -32,6 +34,9 @@
   },
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "axios": "^1.13.1",
     "body-parser": "^2.2.0",
