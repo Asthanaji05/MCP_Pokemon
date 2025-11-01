@@ -36,12 +36,22 @@ jobs:
       - name: Build package
         run: npm run build --if-present
 
-      - name: Update server.json version from tag
+      - name: Update versions from tag
+        id: version
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          # Update package.json version (preserves all fields including mcpName)
           npm version $VERSION --no-git-tag-version
+          # Update server.json versions
           npx -y jq --arg v "$VERSION" '.version = $v | .packages[0].version = $v' server.json > server.json.tmp && mv server.json.tmp server.json
-          echo "Updated version to $VERSION"
+          # Verify mcpName exists in package.json
+          if ! npx -y jq -e '.mcpName' package.json > /dev/null; then
+            echo "Error: mcpName field missing from package.json!"
+            exit 1
+          fi
+          echo "✅ Updated version to $VERSION"
+          echo "✅ Verified mcpName field exists in package.json"
 
       - name: Validate server.json after version update
         run: npm run validate:server
@@ -50,8 +60,34 @@ jobs:
         run: npm whoami
         continue-on-error: true
 
+      - name: Verify package.json has mcpName before publishing
+        run: |
+          if ! grep -q '"mcpName"' package.json; then
+            echo "❌ Error: mcpName field missing from package.json!"
+            cat package.json | grep -A 5 -B 5 mcpName || echo "mcpName not found"
+            exit 1
+          fi
+          echo "✅ Verified mcpName exists in package.json"
+          npx -y jq '.mcpName' package.json
+
       - name: Publish to npm
         run: npm publish
+
+      - name: Wait for npm registry to propagate
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          echo "Waiting for npm registry to propagate package metadata for version $VERSION..."
+          sleep 10
+          echo "Verifying published package has mcpName..."
+          for i in {1..5}; do
+            if npm view pokeapi-mcp-server@$VERSION mcpName 2>/dev/null | grep -q "io.github.Asthanaji05/pokeapi-mcp-server"; then
+              echo "✅ Package metadata confirmed on npm registry"
+              exit 0
+            fi
+            echo "Attempt $i: Package metadata not yet available, waiting..."
+            sleep 5
+          done
+          echo "⚠️  Warning: Could not verify mcpName on npm, but continuing..."
 
       - name: Install MCP Publisher
         run: |
