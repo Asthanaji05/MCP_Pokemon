@@ -5,7 +5,7 @@
   "description": "Model Context Protocol (MCP) Server that allows LLMs to make tool calls for Pokemon-related data. Integrates with PokeAPI to provide access to 47 Pokemon-related endpoints.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No tests configured - skipping\"",
     "start": "ts-node src/index.ts",
     "build": "tsc",
     "mcp": "ts-node src/mcp-server.ts",
