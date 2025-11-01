@@ -1,0 +1,194 @@
+{
+  "ability": {
+    "url": "https://pokeapi.co/api/v2/ability/",
+    "description": "Abilities provide passive effects for Pokémon in battle or in the overworld. Pokémon have multiple possible abilities but can have only one ability at a time."
+  },
+  "berry": {
+    "url": "https://pokeapi.co/api/v2/berry/",
+    "description": "Berries are small fruits that can provide HP and status condition restoration, stat enhancement, and even damage negation when eaten by Pokémon."
+  },
+  "berry-firmness": {
+    "url": "https://pokeapi.co/api/v2/berry-firmness/",
+    "description": "Berries can be soft or hard."
+  },
+  "berry-flavor": {
+    "url": "https://pokeapi.co/api/v2/berry-flavor/",
+    "description": "Flavors determine whether a Pokémon will benefit or suffer from eating a berry based on their nature."
+  },
+  "characteristic": {
+    "url": "https://pokeapi.co/api/v2/characteristic/",
+    "description": "Characteristics indicate which stat contains a Pokémon's highest IV. A Pokémon's Characteristic is determined by the remainder of its highest IV divided by 5."
+  },
+  "contest-effect": {
+    "url": "https://pokeapi.co/api/v2/contest-effect/",
+    "description": "Contest effects refer to the effects of moves when used in contests."
+  },
+  "contest-type": {
+    "url": "https://pokeapi.co/api/v2/contest-type/",
+    "description": "Contest types are categories judges used to weigh a Pokémon's condition in Pokémon contests."
+  },
+  "egg-group": {
+    "url": "https://pokeapi.co/api/v2/egg-group/",
+    "description": "Egg Groups are categories which determine which Pokémon are able to interbreed. Pokémon may belong to either one or two Egg Groups."
+  },
+  "encounter-condition": {
+    "url": "https://pokeapi.co/api/v2/encounter-condition/",
+    "description": "Conditions which affect what Pokémon might appear in the wild, e.g., day or night."
+  },
+  "encounter-condition-value": {
+    "url": "https://pokeapi.co/api/v2/encounter-condition-value/",
+    "description": "Encounter condition values are the various states that an encounter condition can have, i.e., time of day can be either day or night."
+  },
+  "encounter-method": {
+    "url": "https://pokeapi.co/api/v2/encounter-method/",
+    "description": "Methods by which the player can encounter Pokémon in the wild, e.g., walking in tall grass."
+  },
+  "evolution-chain": {
+    "url": "https://pokeapi.co/api/v2/evolution-chain/",
+    "description": "Evolution chains are essentially family trees. They start with the lowest stage within a family and detail evolution conditions for each as well as Pokémon they can evolve into up through the hierarchy."
+  },
+  "evolution-trigger": {
+    "url": "https://pokeapi.co/api/v2/evolution-trigger/",
+    "description": "Evolution triggers are the events and conditions that cause a Pokémon to evolve."
+  },
+  "gender": {
+    "url": "https://pokeapi.co/api/v2/gender/",
+    "description": "Genders were introduced in Generation II for the purposes of breeding Pokémon but can also result in visual differences or even different evolutionary lines."
+  },
+  "generation": {
+    "url": "https://pokeapi.co/api/v2/generation/",
+    "description": "A generation is a grouping of the Pokémon games that separates them based on the Pokémon they include."
+  },
+  "growth-rate": {
+    "url": "https://pokeapi.co/api/v2/growth-rate/",
+    "description": "Growth rates are the speed with which Pokémon gain levels through experience."
+  },
+  "item": {
+    "url": "https://pokeapi.co/api/v2/item/",
+    "description": "An item is an object in the games which the player can pick up, keep in their bag, and use in some manner."
+  },
+  "item-attribute": {
+    "url": "https://pokeapi.co/api/v2/item-attribute/",
+    "description": "Item attributes define particular aspects of items, e.g. \"usable in battle\" or \"consumable\"."
+  },
+  "item-category": {
+    "url": "https://pokeapi.co/api/v2/item-category/",
+    "description": "Item categories determine where items will be placed in the player's bag."
+  },
+  "item-fling-effect": {
+    "url": "https://pokeapi.co/api/v2/item-fling-effect/",
+    "description": "The various effects of the move \"Fling\" when used with different items."
+  },
+  "item-pocket": {
+    "url": "https://pokeapi.co/api/v2/item-pocket/",
+    "description": "Pockets within the player's bag used for storing items by category."
+  },
+  "language": {
+    "url": "https://pokeapi.co/api/v2/language/",
+    "description": "Languages for translations of API resource information."
+  },
+  "location": {
+    "url": "https://pokeapi.co/api/v2/location/",
+    "description": "Locations that can be visited within the games. Locations make up sizable portions of regions, like cities or routes."
+  },
+  "location-area": {
+    "url": "https://pokeapi.co/api/v2/location-area/",
+    "description": "Location areas are sections of areas, such as floors in a building or cave. Each area has its own set of possible Pokémon encounters."
+  },
+  "machine": {
+    "url": "https://pokeapi.co/api/v2/machine/",
+    "description": "Machines are the representation of items that teach moves to Pokémon. They vary from version to version, so it is not certain that one specific TM or HM corresponds to a single Machine."
+  },
+  "move": {
+    "url": "https://pokeapi.co/api/v2/move/",
+    "description": "Moves are the skills of Pokémon in battle. In battle, a Pokémon uses one move each turn."
+  },
+  "move-ailment": {
+    "url": "https://pokeapi.co/api/v2/move-ailment/",
+    "description": "Move Ailments are status conditions caused by moves used during battle."
+  },
+  "move-battle-style": {
+    "url": "https://pokeapi.co/api/v2/move-battle-style/",
+    "description": "Styles of moves when used in the Battle Palace."
+  },
+  "move-category": {
+    "url": "https://pokeapi.co/api/v2/move-category/",
+    "description": "Very general categories that loosely group move effects."
+  },
+  "move-damage-class": {
+    "url": "https://pokeapi.co/api/v2/move-damage-class/",
+    "description": "Damage classes moves can have, e.g. physical, special, or non-damaging."
+  },
+  "move-learn-method": {
+    "url": "https://pokeapi.co/api/v2/move-learn-method/",
+    "description": "Methods by which Pokémon can learn moves."
+  },
+  "move-target": {
+    "url": "https://pokeapi.co/api/v2/move-target/",
+    "description": "Targets moves can be directed at during battle. Targets can be Pokémon, environments or even other moves."
+  },
+  "nature": {
+    "url": "https://pokeapi.co/api/v2/nature/",
+    "description": "Natures influence how a Pokémon's stats grow."
+  },
+  "pal-park-area": {
+    "url": "https://pokeapi.co/api/v2/pal-park-area/",
+    "description": "Areas used for grouping Pokémon encounters in Pal Park. They're like habitats that are specific to Pal Park."
+  },
+  "pokeathlon-stat": {
+    "url": "https://pokeapi.co/api/v2/pokeathlon-stat/",
+    "description": "Pokéathlon Stats are different attributes of a Pokémon's performance in Pokéathlons."
+  },
+  "pokedex": {
+    "url": "https://pokeapi.co/api/v2/pokedex/",
+    "description": "A Pokédex is a handheld electronic encyclopedia device; one which is capable of recording and retaining information of the various Pokémon in a given region."
+  },
+  "pokemon": {
+    "url": "https://pokeapi.co/api/v2/pokemon/",
+    "description": "Pokémon are the creatures that inhabit the world of the Pokémon games. They can be caught using Pokéballs and trained by battling with other Pokémon."
+  },
+  "pokemon-color": {
+    "url": "https://pokeapi.co/api/v2/pokemon-color/",
+    "description": "Colors used for sorting Pokémon in a Pokédex. The color listed in the Pokédex is usually the color most apparent or covering each Pokémon's body."
+  },
+  "pokemon-form": {
+    "url": "https://pokeapi.co/api/v2/pokemon-form/",
+    "description": "Some Pokémon may appear in one of multiple, visually different forms. These differences are purely cosmetic."
+  },
+  "pokemon-habitat": {
+    "url": "https://pokeapi.co/api/v2/pokemon-habitat/",
+    "description": "Habitats are generally different terrain Pokémon can be found in but can also be areas designated for rare or legendary Pokémon."
+  },
+  "pokemon-shape": {
+    "url": "https://pokeapi.co/api/v2/pokemon-shape/",
+    "description": "Shapes used for sorting Pokémon in a Pokédex."
+  },
+  "pokemon-species": {
+    "url": "https://pokeapi.co/api/v2/pokemon-species/",
+    "description": "A Pokémon Species forms the basis for at least one Pokémon. Attributes of Pokémon species are shared across all varieties of Pokémon within the species."
+  },
+  "region": {
+    "url": "https://pokeapi.co/api/v2/region/",
+    "description": "A region is an organized area of the Pokémon world. Most often, the main difference between regions is the species of Pokémon that can be encountered within them."
+  },
+  "stat": {
+    "url": "https://pokeapi.co/api/v2/stat/",
+    "description": "Stats determine certain aspects of battles. Each Pokémon has a value for each stat which grows as they gain levels and can be altered momentarily by effects in battles."
+  },
+  "super-contest-effect": {
+    "url": "https://pokeapi.co/api/v2/super-contest-effect/",
+    "description": "Super contest effects refer to the effects of moves when used in super contests."
+  },
+  "type": {
+    "url": "https://pokeapi.co/api/v2/type/",
+    "description": "Types are properties for Pokémon and their moves. Each type has three properties: which types of Pokémon it is super effective against, which types of Pokémon it is not very effective against, and which types of Pokémon it is completely ineffective against."
+  },
+  "version": {
+    "url": "https://pokeapi.co/api/v2/version/",
+    "description": "Versions of the games, e.g., Red, Blue or Yellow."
+  },
+  "version-group": {
+    "url": "https://pokeapi.co/api/v2/version-group/",
+    "description": "Version groups categorize highly similar versions of the games."
+  }
+}

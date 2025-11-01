@@ -1,0 +1,51 @@
+# List of Endpoints
+
+    - https://pokeapi.co/api/v2/berry/{id or name}/
+    - https://pokeapi.co/api/v2/berry-firmness/{id or name}/
+    -  https://pokeapi.co/api/v2/berry-flavor/{id or name}/
+    - https://pokeapi.co/api/v2/contest-type/{id or name}/
+    - https://pokeapi.co/api/v2/contest-effect/{id}/
+    - https://pokeapi.co/api/v2/super-contest-effect/{id}/
+    - https://pokeapi.co/api/v2/encounter-method/{id or name}/
+    - https://pokeapi.co/api/v2/encounter-condition/{id or name}/
+    -  https://pokeapi.co/api/v2/encounter-condition-value/{id or name}/
+    - https://pokeapi.co/api/v2/evolution-chain/{id}/
+    - https://pokeapi.co/api/v2/evolution-trigger/{id or name}/
+    - https://pokeapi.co/api/v2/generation/{id or name}/
+    - https://pokeapi.co/api/v2/pokedex/{id or name}/
+    - https://pokeapi.co/api/v2/version/{id or name}/
+    - https://pokeapi.co/api/v2/version-group/{id or name}/
+    - https://pokeapi.co/api/v2/item/{id or name}/
+    - https://pokeapi.co/api/v2/item-attribute/{id or name}/
+    - https://pokeapi.co/api/v2/item-category/{id or name}/
+    - https://pokeapi.co/api/v2/item-fling-effect/{id or name}/
+    - https://pokeapi.co/api/v2/item-pocket/{id or name}/
+    - https://pokeapi.co/api/v2/location/{id or name}/
+    - https://pokeapi.co/api/v2/location-area/{id or name}/
+    - https://pokeapi.co/api/v2/pal-park-area/{id or name}/
+    - https://pokeapi.co/api/v2/region/{id or name}/
+    - https://pokeapi.co/api/v2/machine/{id}/
+    - https://pokeapi.co/api/v2/move/{id or name}/
+    - https://pokeapi.co/api/v2/move-ailment/{id or name}/
+    -  https://pokeapi.co/api/v2/move-battle-style/{id or name}/
+    - https://pokeapi.co/api/v2/move-category/{id or name}/
+    - https://pokeapi.co/api/v2/move-damage-class/{id or name}/
+    - https://pokeapi.co/api/v2/move-learn-method/{id or name}/
+    - https://pokeapi.co/api/v2/move-target/{id or name}/
+    - https://pokeapi.co/api/v2/ability/{id or name}/
+    - https://pokeapi.co/api/v2/characteristic/{id}/
+    - https://pokeapi.co/api/v2/egg-group/{id or name}/
+    - https://pokeapi.co/api/v2/gender/{id or name}/
+    - https://pokeapi.co/api/v2/growth-rate/{id or name}/
+    - https://pokeapi.co/api/v2/nature/{id or name}/
+    - https://pokeapi.co/api/v2/pokeathlon-stat/{id or name}/
+    - https://pokeapi.co/api/v2/pokemon/{id or name}/
+    - https://pokeapi.co/api/v2/pokemon/{id or name}/encounters
+    - https://pokeapi.co/api/v2/pokemon-color/{id or name}/
+    - https://pokeapi.co/api/v2/pokemon-form/{id or name}/
+    - https://pokeapi.co/api/v2/pokemon-habitat/{id or name}/
+    - https://pokeapi.co/api/v2/pokemon-shape/{id or name}/
+    - https://pokeapi.co/api/v2/pokemon-species/{id or name}/
+    - https://pokeapi.co/api/v2/stat/{id or name}/
+    - https://pokeapi.co/api/v2/type/{id or name}/
+    - https://pokeapi.co/api/v2/language/{id or name}/

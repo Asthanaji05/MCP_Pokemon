@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "pokemon-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "ts-node",
+        "src/mcp-server.ts"
+      ],
+      "cwd": "D:\\MCP v1\\mcp-server",
+      "env": {
+        "MCP_HTTP_SERVER_URL": "http://localhost:3000"
+      },
+      "trust": true,
+      "timeout": 30000
+    }
+  }
+}
