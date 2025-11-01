@@ -10,7 +10,8 @@
     "build": "tsc",
     "mcp": "ts-node src/mcp-server.ts",
     "test:ai": "ts-node src/ai-helper.ts",
-    "testAllTools": "ts-node src/testAllTools.ts"
+    "testAllTools": "ts-node src/testAllTools.ts",
+    "validate:server": "node validate-server.js"
   },
   "keywords": [
     "mcp",
@@ -39,6 +40,8 @@
   "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/node": "^24.9.2",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
