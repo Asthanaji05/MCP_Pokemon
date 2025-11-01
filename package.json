@@ -1,5 +1,5 @@
 {
-  "name": "mcp-server",
+  "name": "pokemon-mcp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,23 @@
     "mcp": "ts-node src/mcp-server.ts",
     "test:ai": "ts-node src/ai-helper.ts"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "mcp",
+    "pokemon",
+    "api",
+    "tools",
+    "pokedex",
+    "game",
+    "anime",
+    "llm",
+    "ai",
+    "assistant"
+  ],
+  "author": "Shashank Asthana",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Asthanaji05/MCP_Pokemon.git"
+  },
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
