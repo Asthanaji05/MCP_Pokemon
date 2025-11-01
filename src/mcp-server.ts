@@ -12,7 +12,7 @@ const HTTP_SERVER_URL = process.env.MCP_HTTP_SERVER_URL || 'http://localhost:300
 
 interface MCPRequest {
   jsonrpc: '2.0';
-  id: number | string | null;
+  id?: number | string | null;
   method: string;
   params?: any;
 }
@@ -32,14 +32,18 @@ class MCPServer {
   private requestId: number = 1;
   private initialized: boolean = false;
 
-  async handleRequest(request: MCPRequest): Promise<MCPResponse> {
+  async handleRequest(request: MCPRequest): Promise<MCPResponse | null> {
+    // Don't respond to notifications (requests without id)
+    const isNotification = request.id === undefined || request.id === null;
+    
     try {
       switch (request.method) {
         case 'initialize':
           if (this.initialized) {
+            if (isNotification) return null;
             return {
               jsonrpc: '2.0',
-              id: request.id,
+              id: request.id!,
               error: {
                 code: -32000,
                 message: 'Server already initialized',
@@ -49,7 +53,7 @@ class MCPServer {
           this.initialized = true;
           const initResponse: MCPResponse = {
             jsonrpc: '2.0',
-            id: request.id,
+            id: request.id ?? null,
             result: {
               protocolVersion: '2024-11-05',
               capabilities: {
@@ -79,9 +83,10 @@ class MCPServer {
           return await this.callTool(request);
 
         default:
+          if (isNotification) return null;
           return {
             jsonrpc: '2.0',
-            id: request.id,
+            id: request.id!,
             error: {
               code: -32601,
               message: `Method not found: ${request.method}`,
@@ -89,9 +94,10 @@ class MCPServer {
           };
       }
     } catch (error: any) {
+      if (isNotification) return null;
       return {
         jsonrpc: '2.0',
-        id: request.id,
+        id: request.id!,
         error: {
           code: -32603,
           message: error.message || 'Internal error',
@@ -100,7 +106,11 @@ class MCPServer {
     }
   }
 
-  private async listTools(request: MCPRequest): Promise<MCPResponse> {
+  private async listTools(request: MCPRequest): Promise<MCPResponse | null> {
+    if (request.id === undefined || request.id === null) {
+      return null; // Don't respond to notifications
+    }
+    
     try {
       const response = await axios.get(`${HTTP_SERVER_URL}/tools`);
       const tools = response.data;
@@ -122,7 +132,7 @@ class MCPServer {
     } catch (error: any) {
       return {
         jsonrpc: '2.0',
-        id: request.id,
+        id: request.id!,
         error: {
           code: -32603,
           message: `Failed to fetch tools: ${error.message}`,
@@ -131,14 +141,18 @@ class MCPServer {
     }
   }
 
-  private async callTool(request: MCPRequest): Promise<MCPResponse> {
+  private async callTool(request: MCPRequest): Promise<MCPResponse | null> {
+    if (request.id === undefined || request.id === null) {
+      return null; // Don't respond to notifications
+    }
+    
     try {
       const { name, arguments: args } = request.params || {};
       
       if (!name) {
         return {
           jsonrpc: '2.0',
-          id: request.id,
+          id: request.id!,
           error: {
             code: -32602,
             message: 'Tool name is required',
@@ -159,7 +173,7 @@ class MCPServer {
 
       return {
         jsonrpc: '2.0',
-        id: request.id,
+        id: request.id!,
         result: {
           content: [
             {
@@ -172,7 +186,7 @@ class MCPServer {
     } catch (error: any) {
       return {
         jsonrpc: '2.0',
-        id: request.id,
+        id: request.id!,
         error: {
           code: -32603,
           message: `Tool call failed: ${error.response?.data?.error || error.message}`,
@@ -191,22 +205,51 @@ class MCPServer {
     rl.on('line', async (line) => {
       if (!line.trim()) return;
 
+      let requestId: number | string | null = null;
+      
       try {
-        const request: MCPRequest = JSON.parse(line);
+        // Try to parse the request to get the ID, even if validation fails
+        const rawRequest = JSON.parse(line);
+        requestId = rawRequest.id || null;
+        
+        const request: MCPRequest = rawRequest;
+        
+        // Validate required fields
+        if (!request.jsonrpc || !request.method) {
+          throw new Error('Missing required fields: jsonrpc or method');
+        }
+        
         const response = await this.handleRequest(request);
-        // Write JSON-RPC responses to stdout
-        process.stdout.write(JSON.stringify(response) + '\n');
+        // Write JSON-RPC responses to stdout (only if not a notification)
+        if (response !== null) {
+          process.stdout.write(JSON.stringify(response) + '\n');
+        }
       } catch (error: any) {
-        const errorResponse: MCPResponse = {
-          jsonrpc: '2.0',
-          id: null,
-          error: {
-            code: -32700,
-            message: `Parse error: ${error.message}`,
-          },
-        };
-        // Write errors to stdout as well (JSON-RPC format)
-        process.stdout.write(JSON.stringify(errorResponse) + '\n');
+        // Only send error response if we have a valid request ID
+        // For parse errors, try to extract ID from raw JSON
+        if (requestId === null) {
+          try {
+            const rawRequest = JSON.parse(line);
+            requestId = rawRequest.id || null;
+          } catch {
+            // If we can't parse at all, don't send a response
+            // The client will timeout or handle it differently
+            return;
+          }
+        }
+        
+        // Send parse error response only if we have an ID
+        if (requestId !== null) {
+          const errorResponse: MCPResponse = {
+            jsonrpc: '2.0',
+            id: requestId,
+            error: {
+              code: -32700,
+              message: `Parse error: ${error.message}`,
+            },
+          };
+          process.stdout.write(JSON.stringify(errorResponse) + '\n');
+        }
       }
     });
 
@@ -218,10 +261,27 @@ class MCPServer {
   }
 }
 
+// Verify HTTP server is accessible before starting
+async function verifyHTTPServer() {
+  try {
+    const response = await axios.get(`${HTTP_SERVER_URL}/tools`, { timeout: 2000 });
+    return true;
+  } catch (error) {
+    process.stderr.write(
+      `\n⚠️  WARNING: HTTP server at ${HTTP_SERVER_URL} is not accessible.\n` +
+      `   Please start it with: npm start\n` +
+      `   The MCP server will continue but tool calls will fail.\n\n`
+    );
+    return false;
+  }
+}
+
 // Start the server
 const server = new MCPServer();
-server.start().catch((error) => {
-  process.stderr.write(`Failed to start MCP server: ${error.message}\n`);
-  process.exit(1);
+verifyHTTPServer().then(() => {
+  server.start().catch((error) => {
+    process.stderr.write(`Failed to start MCP server: ${error.message}\n`);
+    process.exit(1);
+  });
 });
 
