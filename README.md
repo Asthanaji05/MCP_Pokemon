@@ -1,5 +1,14 @@
 # PokeAPI MCP Server
 
+[![npm version](https://img.shields.io/npm/v/pokeapi-mcp-server.svg)](https://www.npmjs.com/package/pokeapi-mcp-server)
+[![MCP Server](https://img.shields.io/badge/MCP-Server-blue)](https://registry.modelcontextprotocol.io)
+[![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC)
+
+Empower your AI with Pokédex powers! Fetch and explore Pokémon data seamlessly via PokeAPI.
+
+**Server:** `io.github.Asthanaji05/pokeapi-mcp-server`  
+**npm package:** `pokeapi-mcp-server`
+
 This project provides a Model Context Protocol (MCP) Server that enables Large Language Models (LLMs) to make tool calls for Pokémon-related data. It integrates with the [PokeAPI](https://pokeapi.co/) to offer access to 47 different Pokémon-related endpoints.
 
 ## Project Overview
@@ -20,6 +29,85 @@ The server provides 47 Pokémon-related tools, covering a wide range of data:
 * **Evolution**: `getEvolutionChainById`, `getEvolutionTriggerByName`.
 * **Other**: `getCharacteristicById`, `getMachineById`, `getPalParkAreaByName`, `getPokeathlonStatByName`, `getRegionByName`.
 
-**Use with LLM Clients:**
-    **Cursor IDE**: Configured via `.cursor/mcp.json`. Restart Cursor to load the configuration.
-    **Gemini CLI**: Configured via `.gemini/settings.json`. Restart the CLI to load the configuration.
+## 🚀 Installation
+
+### Global Installation
+
+```bash
+npm install -g pokeapi-mcp-server
+```
+
+## ⚙️ Configuration
+
+After installation, add the server to your MCP client configuration:
+
+### For Cursor IDE
+
+Add to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "pokeapi": {
+      "command": "npx",
+      "args": [
+        "pokeapi-mcp-server"
+      ]
+    }
+  }
+}
+```
+
+Or if installed globally:
+
+```json
+{
+  "mcpServers": {
+    "pokeapi": {
+      "command": "pokeapi-mcp-server"
+    }
+  }
+}
+```
+
+### For Gemini CLI
+
+Add to `.gemini/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "pokeapi": {
+      "command": "npx",
+      "args": [
+        "pokeapi-mcp-server"
+      ]
+    }
+  }
+}
+```
+
+Or if installed globally:
+
+```json
+{
+  "mcpServers": {
+    "pokeapi": {
+      "command": "pokeapi-mcp-server"
+    }
+  }
+}
+```
+
+> **Note:** Restart Cursor IDE or Gemini CLI after updating the configuration to load the MCP server.
+
+## 🔗 Links
+
+- [npm Package](https://www.npmjs.com/package/pokeapi-mcp-server)
+- [MCP Registry](https://registry.modelcontextprotocol.io)
+- [GitHub Repository](https://github.com/Asthanaji05/MCP_Pokemon)
+- [PokeAPI Documentation](https://pokeapi.co/docs/v2)
+
+---
+
+Made with ❤️ by [Asthanaji05](https://github.com/Asthanaji05)
