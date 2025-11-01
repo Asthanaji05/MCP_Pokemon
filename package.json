@@ -17,7 +17,6 @@
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
     "build": "tsc",
-    "postinstall": "node -e \"try { require('typescript'); require('child_process').execSync('npm run build', {stdio:'inherit'}); } catch(e) { console.log('Skipping build - dist/ folder should already contain compiled files'); }\"",
     "mcp": "ts-node src/mcp-server.ts",
     "test:ai": "ts-node src/ai-helper.ts",
     "testAllTools": "ts-node src/testAllTools.ts",
