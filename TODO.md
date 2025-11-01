@@ -60,3 +60,4 @@
 [x] Add this MCP to use with Gemini CLI
 [x] Call /tools of this mcp in cli
 [x] Test any tool call
+[x] npx @modelcontextprotocol/inspector npx ts-node src/index.ts
