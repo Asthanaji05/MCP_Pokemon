@@ -11,6 +11,8 @@ jobs:
     permissions:
       id-token: write  # Required for OIDC authentication
       contents: read
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -44,10 +46,12 @@ jobs:
       - name: Validate server.json after version update
         run: npm run validate:server
 
+      - name: Verify npm authentication
+        run: npm whoami
+        continue-on-error: true
+
       - name: Publish to npm
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install MCP Publisher
         run: |
