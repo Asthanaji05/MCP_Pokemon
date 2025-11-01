@@ -35,7 +35,7 @@ The project consists of three main components:
 
 ### 3. Pokemon Tools (`mcp-server/src/api/tools/`)
 
-- 51 tool implementations covering all PokeAPI v2 resources
+- 47 tool implementations covering all PokeAPI v2 resources
 - Each tool includes:
   - Tool definition (name, description, parameters)
   - Handler function that fetches data from PokeAPI
@@ -93,7 +93,7 @@ mcp-server/
 │   ├── testAllTools.ts       # Comprehensive test suite
 │   ├── api/
 │   │   ├── index.ts          # API routes
-│   │   └── tools/            # 51 tool implementations
+│   │   └── tools/            # 47 tool implementations
 │   └── test.ts               # Simple test script
 ├── .cursor/mcp.json          # Cursor MCP config
 ├── .gemini/settings.json     # Gemini CLI MCP config
@@ -102,7 +102,7 @@ mcp-server/
 
 ## Available Tools
 
-The server provides **51 Pokemon-related tools**, including:
+The server provides **47 Pokemon-related tools**, including:
 
 - **Pokemon**: `getPokemonByName`, `getPokemonSpeciesByName`, `getPokemonFormByName`, etc.
 - **Moves**: `getMoveByName`, `getMoveCategoryByName`, `getMoveDamageClassByName`, etc.
@@ -121,7 +121,7 @@ The server provides **51 Pokemon-related tools**, including:
 ## Testing
 
 - **`npm run test:ai`** - Comprehensive API test (uses `ai-helper.ts`)
-- **`npm run testAllTools`** - Tests all 51 tools and generates CSV report
+- **`npm run testAllTools`** - Tests all 47 tools and generates CSV report
 - **`npm start`** - Start the HTTP server
 - **`npm run mcp`** - Run MCP server directly for debugging
 
