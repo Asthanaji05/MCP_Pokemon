@@ -4,8 +4,6 @@ This file is for Gemini's use. I will use it to store notes, context, and other 
 The MCP Server is running at localhost:3000
 I will ask user to restart/start the server and use Curl to verify it
 
-I will use Todo.md file for managing todo and update it after each command
-
 ## Project Context
 
 - The project is an MCP Server that enables LLMs to make tool calls for Pokémon-related functionalities.
@@ -17,7 +15,7 @@ I will use Todo.md file for managing todo and update it after each command
 ## Current Task
 
 - The MCP server is running and its setup has been verified.
-- Waiting for the user to restart the Gemini CLI to load the new MCP server.
+- All tasks in `TODO.md` are complete.
 
 ## Agent Directives
 
