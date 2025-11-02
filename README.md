@@ -41,6 +41,23 @@ npm install -g pokeapi-mcp-server
 
 After installation, add the server to your MCP client configuration:
 
+### For Claude Desktop
+
+Add to `Claude>claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "pokemon-mcp-server": {
+      "command": "npx",
+      "args": [
+        "pokeapi-mcp-server@1.4.0"
+      ]
+    }
+  }
+}
+```
+
 ### For Cursor IDE
 
 Add to `.cursor/mcp.json`:
