@@ -63,27 +63,59 @@ async function testAllTools() {
 
   const results: TestResult[] = [];
 
+  // Retry configuration for server errors
+  const MAX_RETRIES = 3;
+  const RETRY_DELAY = 2000; // 2 seconds
+
+  async function testToolWithRetry(toolName: string, url: string, data: any, retries = MAX_RETRIES): Promise<TestResult> {
+    for (let attempt = 1; attempt <= retries; attempt++) {
+      try {
+        const response = await axios.post(url, data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          timeout: 10000, // 10 second timeout
+        });
+
+        if (response.status === 200) {
+          return { toolName, status: 'PASSED' };
+        } else {
+          return { toolName, status: 'FAILED', error: `Status: ${response.status}` };
+        }
+      } catch (error: any) {
+        const isServerError = error.response?.status === 502 || error.response?.status === 503 || error.response?.status === 504;
+        const isTimeout = error.code === 'ECONNABORTED';
+        
+        if ((isServerError || isTimeout) && attempt < retries) {
+          // Retry for server errors (502, 503, 504) or timeouts
+          console.log(`  ⚠️  ${toolName} failed (attempt ${attempt}/${retries}): ${error.response?.status || error.code}. Retrying in ${RETRY_DELAY}ms...`);
+          await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * attempt)); // Exponential backoff
+          continue;
+        }
+        
+        // Final attempt failed or non-retryable error
+        const errorMsg = error.response?.status 
+          ? `Request failed with status code ${error.response.status}`
+          : error.message;
+        return { toolName, status: 'FAILED', error: errorMsg };
+      }
+    }
+    
+    // Should never reach here, but TypeScript needs it
+    return { toolName, status: 'FAILED', error: 'Max retries exceeded' };
+  }
+
   for (const tool of tools) {
     const toolName = tool.name;
     const toolNameWithSuffix = `${toolName}Tool`;
     const url = `https://pokemon-mcp-server-vs8m.onrender.com/api/tools/${toolName}`;
     const data: any = dummyData[toolNameWithSuffix]; 
-
-    try {
-      const response = await axios.post(url, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.status === 200) {
-        results.push({ toolName, status: 'PASSED' });
-      } else {
-        results.push({ toolName, status: 'FAILED', error: `Status: ${response.status}` });
-      }
-    } catch (error: any) {
-      results.push({ toolName, status: 'FAILED', error: error.message });
-    }
+    
+    const result = await testToolWithRetry(toolName, url, data);
+    results.push(result);
+    
+    // Small delay between requests to avoid overwhelming the server
+    await new Promise(resolve => setTimeout(resolve, 100));
   }
 
   // Generate summary
