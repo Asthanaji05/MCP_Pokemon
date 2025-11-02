@@ -85,30 +85,20 @@ Add to `.gemini/settings.json`:
     "pokemon-mcp-server": {
       "command": "npx",
       "args": [
+        "--yes",
         "pokeapi-mcp-server@1.4.0"
-      ]
+      ],
+      "transport": "stdio",
+      "trust": true,
+      "env": {
+        "MCP_HTTP_SERVER_URL": "https://pokemon-mcp-server-vs8m.onrender.com"
+      }
     }
   }
 }
 ```
 
-Or if installed globally:
-
-```json
-{
-  "mcpServers": {
-    "pokemon-mcp-server": {
-      "command": "npx",
-      "args": [
-        "pokeapi-mcp-server@1.4.0"
-      ]
-    }
-  }
-}
-
-```
-
-> **Note:** Restart Cursor IDE or Gemini CLI after updating the configuration to load the MCP server.
+> **Note:** The `env` section ensures the MCP server connects to the correct HTTP server. The remote server at `https://pokemon-mcp-server-vs8m.onrender.com` is available by default. If you're running a local HTTP server on port 3000, change the URL to `http://localhost:3000`. Restart Cursor IDE or Gemini CLI after updating the configuration to load the MCP server.
 
 ## 🔗 Links
 
