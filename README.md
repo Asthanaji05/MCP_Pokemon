@@ -57,6 +57,7 @@ Add to `Claude>claude_desktop_config.json`
   }
 }
 ```
+
 <img width="1920" height="1029" alt="image" src="https://github.com/user-attachments/assets/b352f1ee-62b3-44c7-9443-72a20094907e" />
 
 ### For Cursor IDE
@@ -92,7 +93,6 @@ Or if installed globally:
 }
 
 ```
-
 
 <img width="1920" height="1023" alt="image" src="https://github.com/user-attachments/assets/297f41f5-21f5-404f-9336-57f53f9b3e74" />
 
