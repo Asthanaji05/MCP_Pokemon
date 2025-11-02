@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"  # Triggers on version tags like v1.2.1
+  workflow_run:
+    workflows: ["Auto Tag and Publish"]
+    types:
+      - completed
+    branches:
+      - main
 
 jobs:
   publish:
@@ -17,6 +23,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Fetch all history for tags when triggered by workflow_run
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
@@ -39,8 +47,21 @@ jobs:
       - name: Update versions from tag
         id: version
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
+          # If triggered by workflow_run, get the tag from the triggering workflow
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            # Get the latest v1.x.x tag created by the auto-tag workflow
+            git fetch --tags
+            TAG=$(git tag -l "v1.*.*" | sort -V | tail -n 1)
+            VERSION=${TAG#v}
+            echo "Triggered by workflow_run, using latest tag: $TAG"
+          else
+            # Triggered by tag push
+            VERSION=${GITHUB_REF#refs/tags/v}
+            echo "Triggered by tag push, using tag: v$VERSION"
+          fi
+          
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
           # Update package.json version (preserves all fields including mcpName)
           npm version $VERSION --no-git-tag-version
           # Update server.json versions using Node.js
@@ -94,7 +115,7 @@ jobs:
 
       - name: Wait for npm registry to propagate
         run: |
-          VERSION=${{ steps.version.outputs.version }}
+          VERSION="${{ steps.version.outputs.version }}"
           echo "Waiting for npm registry to propagate package metadata for version $VERSION..."
           sleep 10
           echo "Verifying published package has mcpName..."
