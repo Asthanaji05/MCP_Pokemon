@@ -98,9 +98,23 @@ jobs:
             cat test-results.csv | head -n 20 >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
             
-            PASSED=$(grep -c "PASSED" test-results.csv || echo "0")
-            FAILED=$(grep -c "FAILED" test-results.csv || echo "0")
-            TOTAL=$((PASSED + FAILED))
+            # Count using wc -l instead of grep -c to avoid whitespace issues
+            PASSED_LINES=$(grep "PASSED" test-results.csv 2>/dev/null | wc -l || echo "0")
+            FAILED_LINES=$(grep "FAILED" test-results.csv 2>/dev/null | wc -l || echo "0")
+            
+            # Strip whitespace and ensure integers
+            PASSED=$(echo "$PASSED_LINES" | tr -d '[:space:]')
+            FAILED=$(echo "$FAILED_LINES" | tr -d '[:space:]')
+            
+            # Default to 0 if empty
+            [ -z "$PASSED" ] && PASSED=0
+            [ -z "$FAILED" ] && FAILED=0
+            
+            # Calculate total safely
+            TOTAL=0
+            if [ "$PASSED" -ge 0 ] && [ "$FAILED" -ge 0 ]; then
+              TOTAL=$((PASSED + FAILED))
+            fi
             
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "- **Total Tools Tested:** $TOTAL" >> $GITHUB_STEP_SUMMARY
