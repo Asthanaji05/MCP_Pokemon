@@ -1,0 +1,65 @@
+name: Auto Tag and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to create and push tags
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0  # Fetch all history for tags
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Calculate next version
+        id: next-version
+        run: |
+          # Fetch all tags
+          git fetch --tags
+          
+          # Get the latest v1.5.x tag
+          LATEST_TAG=$(git tag -l "v1.5.*" | sort -V | tail -n 1)
+          
+          if [ -z "$LATEST_TAG" ]; then
+            # No v1.5.x tags exist, start with v1.5.0
+            NEXT_VERSION="v1.5.0"
+            echo "No existing v1.5.x tags found, starting with v1.5.0"
+          else
+            # Extract the patch number and increment
+            PATCH=$(echo "$LATEST_TAG" | sed 's/v1\.5\.//')
+            NEXT_PATCH=$((PATCH + 1))
+            NEXT_VERSION="v1.5.$NEXT_PATCH"
+            echo "Latest v1.5.x tag: $LATEST_TAG"
+          fi
+          
+          echo "Next version: $NEXT_VERSION"
+          echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create and push tag
+        run: |
+          NEXT_VERSION="${{ steps.next-version.outputs.next_version }}"
+          
+          # Check if tag already exists (shouldn't happen, but safety check)
+          if git rev-parse "$NEXT_VERSION" >/dev/null 2>&1; then
+            echo "⚠️  Tag $NEXT_VERSION already exists, skipping tag creation"
+            exit 0
+          fi
+          
+          # Create the tag
+          git tag "$NEXT_VERSION"
+          
+          # Push the tag (this will trigger publish-mcp.yml)
+          git push origin "$NEXT_VERSION"
+          
+          echo "✅ Created and pushed tag: $NEXT_VERSION"
+
