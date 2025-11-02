@@ -1,0 +1,89 @@
+name: Test Tools
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches-ignore:
+      - 'gh-pages'  # Ignore gh-pages if you have one
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "20.x"
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run testAllTools
+        id: test
+        run: |
+          npm run testAllTools || TEST_EXIT_CODE=$?
+          
+          # Check if any tests failed
+          if [ -f test-results.csv ]; then
+            FAILED_COUNT=$(grep -c "FAILED" test-results.csv || echo "0")
+            if [ "$FAILED_COUNT" -gt 0 ]; then
+              echo "❌ $FAILED_COUNT test(s) failed"
+              exit 1
+            else
+              echo "✅ All tests passed!"
+            fi
+          else
+            echo "⚠️  Test results file not found"
+            exit 1
+          fi
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results.csv
+          retention-days: 7
+
+      - name: Test Summary
+        if: always()
+        run: |
+          if [ -f test-results.csv ]; then
+            echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Results" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat test-results.csv | head -n 20 >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            
+            PASSED=$(grep -c "PASSED" test-results.csv || echo "0")
+            FAILED=$(grep -c "FAILED" test-results.csv || echo "0")
+            TOTAL=$((PASSED + FAILED))
+            
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **Total Tools Tested:** $TOTAL" >> $GITHUB_STEP_SUMMARY
+            echo "- **Passed:** $PASSED" >> $GITHUB_STEP_SUMMARY
+            echo "- **Failed:** $FAILED" >> $GITHUB_STEP_SUMMARY
+            
+            if [ "$FAILED" -gt 0 ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### ❌ Failed Tools" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              grep "FAILED" test-results.csv >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+            else
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### ✅ All tests passed!" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+
