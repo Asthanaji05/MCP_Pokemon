@@ -27,20 +27,29 @@ jobs:
           # Fetch all tags
           git fetch --tags
           
-          # Get the latest v1.5.x tag
-          LATEST_TAG=$(git tag -l "v1.5.*" | sort -V | tail -n 1)
+          # Get the latest v1.x.x tag
+          LATEST_TAG=$(git tag -l "v1.*.*" | sort -V | tail -n 1)
           
           if [ -z "$LATEST_TAG" ]; then
-            # No v1.5.x tags exist, start with v1.5.0
-            NEXT_VERSION="v1.5.0"
-            echo "No existing v1.5.x tags found, starting with v1.5.0"
+            # No v1.x.x tags exist, start with v1.5.0
+            NEXT_MINOR=5
+            echo "No existing v1.x.x tags found, starting with v1.5.0"
           else
-            # Extract the patch number and increment
-            PATCH=$(echo "$LATEST_TAG" | sed 's/v1\.5\.//')
-            NEXT_PATCH=$((PATCH + 1))
-            NEXT_VERSION="v1.5.$NEXT_PATCH"
-            echo "Latest v1.5.x tag: $LATEST_TAG"
+            # Extract minor version number from the tag (e.g., v1.5.0 -> 5)
+            MINOR=$(echo "$LATEST_TAG" | sed -E 's/v1\.([0-9]+)\..*/\1/')
+            echo "Latest tag: $LATEST_TAG (minor version: $MINOR)"
+            
+            # If latest minor version is less than 5, start from 5
+            if [ "$MINOR" -lt 5 ]; then
+              NEXT_MINOR=5
+            else
+              # Increment minor version
+              NEXT_MINOR=$((MINOR + 1))
+            fi
           fi
+          
+          # Set patch to 0 and create next version
+          NEXT_VERSION="v1.$NEXT_MINOR.0"
           
           echo "Next version: $NEXT_VERSION"
           echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
