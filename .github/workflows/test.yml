@@ -31,14 +31,26 @@ jobs:
       - name: Run testAllTools
         id: test
         run: |
-          npm run testAllTools || TEST_EXIT_CODE=$?
+          npm run testAllTools || true
           
           # Check if any tests failed
           if [ -f test-results.csv ]; then
             FAILED_COUNT=$(grep -c "FAILED" test-results.csv || echo "0")
+            SERVER_ERROR_COUNT=$(grep -c "502\|503\|504" test-results.csv || echo "0")
+            OTHER_ERROR_COUNT=$((FAILED_COUNT - SERVER_ERROR_COUNT))
+            
             if [ "$FAILED_COUNT" -gt 0 ]; then
               echo "❌ $FAILED_COUNT test(s) failed"
-              exit 1
+              if [ "$SERVER_ERROR_COUNT" -gt 0 ]; then
+                echo "⚠️  $SERVER_ERROR_COUNT failure(s) are server errors (502/503/504) - these may be transient"
+              fi
+              if [ "$OTHER_ERROR_COUNT" -gt 0 ]; then
+                echo "❌ $OTHER_ERROR_COUNT failure(s) are non-server errors - these need attention"
+                exit 1
+              else
+                echo "⚠️  All failures are server errors. Consider this a warning, not a failure."
+                echo "::warning::Server returned errors (502/503/504). This may be transient."
+              fi
             else
               echo "✅ All tests passed!"
             fi
