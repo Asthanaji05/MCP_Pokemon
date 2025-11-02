@@ -61,3 +61,7 @@
 [x] Call /tools of this mcp in cli
 [x] Test any tool call
 [x] npx @modelcontextprotocol/inspector npx ts-node src/index.ts
+[x] added mcp in the registry 
+[x] updated the readme
+[x] tested in cursor by adding mcp.json
+[ ] tested in Gemini CLI
