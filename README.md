@@ -57,6 +57,7 @@ Add to `Claude>claude_desktop_config.json`
   }
 }
 ```
+<img width="1920" height="1029" alt="image" src="https://github.com/user-attachments/assets/b352f1ee-62b3-44c7-9443-72a20094907e" />
 
 ### For Cursor IDE
 
@@ -92,6 +93,9 @@ Or if installed globally:
 
 ```
 
+
+<img width="1920" height="1023" alt="image" src="https://github.com/user-attachments/assets/297f41f5-21f5-404f-9336-57f53f9b3e74" />
+
 ### For Gemini CLI
 
 Add to `.gemini/settings.json`:
@@ -114,6 +118,12 @@ Add to `.gemini/settings.json`:
   }
 }
 ```
+
+<img width="1537" height="902" alt="image" src="https://github.com/user-attachments/assets/8a270afe-562d-4a68-9d96-699b845c66c2" />
+
+<img width="1527" height="134" alt="image" src="https://github.com/user-attachments/assets/2bd61cab-82f2-4500-ac86-dba53a50b93f" />
+
+<img width="1465" height="441" alt="image" src="https://github.com/user-attachments/assets/a7dd6fc2-f335-4ea5-95c7-77b29d165fd2" />
 
 > **Note:** The `env` section ensures the MCP server connects to the correct HTTP server. The remote server at `https://pokemon-mcp-server-vs8m.onrender.com` is available by default. If you're running a local HTTP server on port 3000, change the URL to `http://localhost:3000`. Restart Cursor IDE or Gemini CLI after updating the configuration to load the MCP server.
 
