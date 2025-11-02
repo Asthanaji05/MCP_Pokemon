@@ -1,6 +1,6 @@
 {
   "name": "pokeapi-mcp-server",
-  "version": "1.2.1",
+  "version": "1.4.0",
   "mcpName": "io.github.Asthanaji05/pokeapi-mcp-server",
   "description": "Model Context Protocol (MCP) Server that allows LLMs to make tool calls for Pokemon-related data. Integrates with PokeAPI to provide access to 47 Pokemon-related endpoints.",
   "main": "index.js",
@@ -47,7 +47,8 @@
   "dependencies": {
     "axios": "^1.13.1",
     "body-parser": "^2.2.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "pokeapi-mcp-server": "^1.4.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.6",
