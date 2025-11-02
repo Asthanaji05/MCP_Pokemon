@@ -35,17 +35,25 @@ jobs:
           
           # Check if any tests failed
           if [ -f test-results.csv ]; then
-            # Count failures - handle case where grep returns nothing
-            FAILED_COUNT=$(grep -c "FAILED" test-results.csv 2>/dev/null || echo "0")
-            # Count server errors - using ERE pattern
-            SERVER_ERROR_COUNT=$(grep -E -c "502|503|504" test-results.csv 2>/dev/null || echo "0")
+            # Count failures - handle case where grep returns nothing or no matches
+            FAILED_LINES=$(grep "FAILED" test-results.csv 2>/dev/null | wc -l || echo "0")
+            SERVER_ERROR_LINES=$(grep -E "502|503|504" test-results.csv 2>/dev/null | wc -l || echo "0")
             
-            # Ensure both are integers
-            FAILED_COUNT=${FAILED_COUNT:-0}
-            SERVER_ERROR_COUNT=${SERVER_ERROR_COUNT:-0}
+            # Strip whitespace and ensure integers
+            FAILED_COUNT=$(echo "$FAILED_LINES" | tr -d '[:space:]')
+            SERVER_ERROR_COUNT=$(echo "$SERVER_ERROR_LINES" | tr -d '[:space:]')
             
-            # Calculate other errors
-            OTHER_ERROR_COUNT=$((FAILED_COUNT - SERVER_ERROR_COUNT))
+            # Default to 0 if empty
+            [ -z "$FAILED_COUNT" ] && FAILED_COUNT=0
+            [ -z "$SERVER_ERROR_COUNT" ] && SERVER_ERROR_COUNT=0
+            
+            # Calculate other errors safely
+            OTHER_ERROR_COUNT=0
+            if [ "$FAILED_COUNT" -gt 0 ] && [ "$SERVER_ERROR_COUNT" -ge 0 ]; then
+              OTHER_ERROR_COUNT=$((FAILED_COUNT - SERVER_ERROR_COUNT))
+              # Ensure non-negative
+              [ "$OTHER_ERROR_COUNT" -lt 0 ] && OTHER_ERROR_COUNT=0
+            fi
             
             echo "📊 Test Analysis:"
             echo "  - Total Failed: $FAILED_COUNT"
