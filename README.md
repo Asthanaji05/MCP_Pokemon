@@ -48,14 +48,15 @@ Add to `.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "pokeapi": {
+    "pokemon-mcp-server": {
       "command": "npx",
       "args": [
-        "pokeapi-mcp-server"
+        "pokeapi-mcp-server@1.4.0"
       ]
     }
   }
 }
+
 ```
 
 Or if installed globally:
@@ -63,11 +64,15 @@ Or if installed globally:
 ```json
 {
   "mcpServers": {
-    "pokeapi": {
-      "command": "pokeapi-mcp-server"
+    "pokemon-mcp-server": {
+      "command": "npx",
+      "args": [
+        "pokeapi-mcp-server@1.4.0"
+      ]
     }
   }
 }
+
 ```
 
 ### For Gemini CLI
@@ -77,10 +82,10 @@ Add to `.gemini/settings.json`:
 ```json
 {
   "mcpServers": {
-    "pokeapi": {
+    "pokemon-mcp-server": {
       "command": "npx",
       "args": [
-        "pokeapi-mcp-server"
+        "pokeapi-mcp-server@1.4.0"
       ]
     }
   }
@@ -92,21 +97,25 @@ Or if installed globally:
 ```json
 {
   "mcpServers": {
-    "pokeapi": {
-      "command": "pokeapi-mcp-server"
+    "pokemon-mcp-server": {
+      "command": "npx",
+      "args": [
+        "pokeapi-mcp-server@1.4.0"
+      ]
     }
   }
 }
+
 ```
 
 > **Note:** Restart Cursor IDE or Gemini CLI after updating the configuration to load the MCP server.
 
 ## 🔗 Links
 
-- [npm Package](https://www.npmjs.com/package/pokeapi-mcp-server)
-- [MCP Registry](https://registry.modelcontextprotocol.io)
-- [GitHub Repository](https://github.com/Asthanaji05/MCP_Pokemon)
-- [PokeAPI Documentation](https://pokeapi.co/docs/v2)
+* [npm Package](https://www.npmjs.com/package/pokeapi-mcp-server)
+* [MCP Registry](https://registry.modelcontextprotocol.io)
+* [GitHub Repository](https://github.com/Asthanaji05/MCP_Pokemon)
+* [PokeAPI Documentation](https://pokeapi.co/docs/v2)
 
 ---
 
