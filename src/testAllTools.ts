@@ -66,7 +66,7 @@ async function testAllTools() {
   for (const tool of tools) {
     const toolName = tool.name;
     const toolNameWithSuffix = `${toolName}Tool`;
-    const url = `http://localhost:3000/api/tools/${toolName}`;
+    const url = `https://pokemon-mcp-server-vs8m.onrender.com/api/tools/${toolName}`;
     const data: any = dummyData[toolNameWithSuffix]; 
 
     try {

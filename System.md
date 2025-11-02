@@ -17,7 +17,7 @@ The project consists of three main components:
 
 ### 1. HTTP API Server (`mcp-server/src/index.ts`)
 
-- Express.js server running on `http://localhost:3000`
+- Express.js server running on `https://pokemon-mcp-server-vs8m.onrender.com` or `http://localhost:3000`
 - Provides REST API endpoints for Pokemon data
 - Routes:
   - `GET /tools` - List all available tools
@@ -116,7 +116,7 @@ The server provides **47 Pokemon-related tools**, including:
 1. **Start the HTTP server**: `cd mcp-server && npm start`
 2. **Use in Cursor**: Configured via `.cursor/mcp.json` - restart Cursor to load
 3. **Use in Gemini CLI**: Configured via `.gemini/settings.json` - restart CLI to load
-4. **Direct API access**: Make HTTP requests to `http://localhost:3000`
+4. **Direct API access**: Make HTTP requests to `https://pokemon-mcp-server-vs8m.onrender.com`
 
 ## Testing
 

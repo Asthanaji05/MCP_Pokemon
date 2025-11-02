@@ -20,7 +20,7 @@ Before using the MCP server in either tool, make sure:
    npm start
    ```
   
-   The server must be running on `http://localhost:3000` for the MCP server to work.
+   The server must be running on `https://pokemon-mcp-server-vs8m.onrender.com` for the MCP server to work.
 
 ## Using in Cursor
 
@@ -148,7 +148,7 @@ This will:
 1. **Check HTTP Server**: Make sure it's running on port 3000
 
    ```bash
-   curl http://localhost:3000/tools
+   curl https://pokemon-mcp-server-vs8m.onrender.com/tools
    ```
 
 2. **Verify Paths**: Ensure `cwd` in the config matches your project location
@@ -171,9 +171,9 @@ This will:
 
 ### Tools Not Loading
 
-- Verify HTTP server responds: `curl http://localhost:3000/tools`
+- Verify HTTP server responds: `curl https://pokemon-mcp-server-vs8m.onrender.com/tools`
 - Check server logs for errors
-- Ensure the MCP server can reach `http://localhost:3000`
+- Ensure the MCP server can reach `https://pokemon-mcp-server-vs8m.onrender.com`
 
 ### TypeScript Errors
 
@@ -194,7 +194,7 @@ If you get TypeScript compilation errors:
       "args": ["-r", "ts-node/register", "mcp-server/src/mcp-server.ts"],
       "cwd": "D:\\MCP v1",
       "env": {
-        "MCP_HTTP_SERVER_URL": "http://localhost:3000"
+        "MCP_HTTP_SERVER_URL": "https://pokemon-mcp-server-vs8m.onrender.com"
       },
       "trust": true,
       "timeout": 30000

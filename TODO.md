@@ -64,4 +64,4 @@
 [x] added mcp in the registry 
 [x] updated the readme
 [x] tested in cursor by adding mcp.json
-[ ] tested in Gemini CLI
+[ ] tested in Gemini CLI by adding in settings.json
